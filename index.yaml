@@ -1,11 +1,28 @@
 apiVersion: v1
 entries:
   catalog:
-  - created: 2018-01-04T18:46:54.824214+08:00
+  - created: 2018-01-06T23:46:20.856796+08:00
     description: service-catalog API server and controller-manager helm chart
     digest: 3c93b2bb3b55a56335242bed3e5d93c03cbb6b0e38b2ce698a2e47dc53d3637b
     name: catalog
     urls:
     - https://raw.githubusercontent.com/carlory/kubeapps/master/catalog-v0.1.3.tgz
     version: v0.1.3
-generated: 2018-01-04T18:46:54.82306+08:00
+  swift:
+  - apiVersion: v1
+    appVersion: 0.5.2
+    created: 2018-01-06T23:46:20.87408+08:00
+    description: swift by AppsCode - Ajax friendly Helm Tiller Proxy
+    digest: dd956813e60c12ae3da698ad9e597298a569f9a186f69fcbc90b0dbabcab2076
+    home: https://github.com/appscode/swift
+    icon: https://cdn.appscode.com/images/icon/swift.png
+    maintainers:
+    - email: support@appscode.com
+      name: appscode
+    name: swift
+    sources:
+    - https://github.com/appscode/swift
+    urls:
+    - https://raw.githubusercontent.com/carlory/kubeapps/master/swift-0.1.0.tgz
+    version: 0.1.0
+generated: 2018-01-06T23:46:20.79418+08:00
