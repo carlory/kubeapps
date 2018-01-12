@@ -1,0 +1,32 @@
+# Default values for portworx-lighthouse.
+service:
+  type: NodePort
+  nodePort:
+   insecurePort: 32080 
+   securePort: 32081
+
+influxdb:
+  image:
+    repo: registry.cn-hangzhou.aliyuncs.com/pelican/px-influxdb
+    version: latest
+    pullPolicy: IfNotPresent
+  env:
+    user: admin
+    pwd: password
+
+lighthouse:
+  image:
+    repo: registry.cn-hangzhou.aliyuncs.com/pelican/px-lighthouse
+    version: 1.1.11
+    pullPolicy: IfNotPresent
+  env:
+    email: admin@px.local
+  args:
+    # portworx etcd url must be not empty
+    etcdurl: 
+
+proxy:
+  image:
+    repo: registry.cn-hangzhou.aliyuncs.com/pelican/px-lighthouse-proxy
+    version: latest
+    pullPolicy: IfNotPresent

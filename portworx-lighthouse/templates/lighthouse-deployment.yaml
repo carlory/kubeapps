@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        release: {{ .Release.Name }}
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+      - name: influxdb
+        image: {{ .Values.influxdb.image.repo }}:{{ .Values.influxdb.image.version }}
+        imagePullPolicy: {{ .Values.influxdb.image.pullPolicy }}
+        env:
+        - name: ADMIN_USER
+          value: {{ .Values.influxdb.env.user }}
+        - name: INFLUXDB_INIT_PWD
+          value: {{ .Values.influxdb.env.pwd }}
+        - name: PRE_CREATE_DB
+          value: "px_stats"
+      - name: lighthouse
+        image: {{ .Values.lighthouse.image.repo }}:{{ .Values.lighthouse.image.version }}
+        imagePullPolicy: {{ .Values.lighthouse.image.pullPolicy }}
+        env:
+        - name: PWX_PX_PRECREATE_ADMIN
+          value: "true"
+        - name: PWX_PX_ADMIN_EMAIL
+          value: {{ .Values.lighthouse.env.email }}
+        args:
+          - -d
+          - {{- printf " http://%s:%s@127.0.0.1:8086" .Values.influxdb.env.user .Values.influxdb.env.pwd }}
+          - -k
+          - {{ .Values.lighthouse.args.etcdurl }}
+      - name: proxy
+        image: {{ .Values.proxy.image.repo }}:{{ .Values.proxy.image.version }}
+        imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+        env:
+        - name: PROXY_URL
+          value: http://localhost:80
